@@ -1,0 +1,127 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.header-register {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2577f2;
+  padding: 10px 20px;
+}
+
+
+.logo-area {
+  display: flex;
+  align-items: center;
+}
+
+.name-header {
+  font-family: 'Roboto', sans-serif;
+  color: #E4E4FA;
+  margin-right: 10px;
+  font-size: 32px;
+}
+
+.icon-plane {
+  font-size: 32px;
+  color: #E4E4FA;
+  margin-top: 3px;
+}
+
+.icon-user {
+  font-size: 32px;
+  color: #E4E4FA;
+}
+
+.register-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 100px;
+  margin-top: 20px;
+  margin-bottom: 300px;
+  gap: 400px; 
+}
+
+
+.img-register {
+  width: 600px; 
+  height: auto;
+}
+
+.img-register img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-top: 50px;
+}
+
+
+.card-register {
+  padding: 20px;
+  width: 500px;
+  height: 650px;
+  background-color: white;
+  border-radius: 8px;
+  margin-left: 90px;
+}
+
+
+.form-card{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 50px;
+}
+
+.form-card p{
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.inputs-register input{
+    border-radius: 25px;
+    width: 450px;
+    height: 50px;
+    font-size: 20px;
+    padding-left: 30px;
+}
+
+#data{
+    padding-right: 20px;
+}
+
+.form-card button{
+    background-color: #2f98bc;
+    color: white;
+    width: 150px;
+    height: 50px;
+    border-radius: 30px;
+    
+}
+
+
+.card-register a{
+    color: #2f98bc;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.card-register span{
+    font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
