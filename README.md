@@ -40,7 +40,7 @@ OrlaConnect/
 ### 1) Front-end
 
 ```bash
-cd /home/runner/work/OrlaConnect/OrlaConnect/victorhpmelo/OrlaConnect/orla-conecta-front
+cd orla-conecta-front
 npm install
 npm run dev
 ```
@@ -55,7 +55,7 @@ npm run build
 ### 2) Back-end
 
 ```bash
-cd /home/runner/work/OrlaConnect/OrlaConnect/victorhpmelo/OrlaConnect/orla-conecta-backend
+cd orla-conecta-backend
 dotnet restore
 dotnet build
 dotnet test
