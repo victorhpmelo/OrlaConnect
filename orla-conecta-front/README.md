@@ -20,7 +20,7 @@ Este repositório contém o front-end do sistema **OrlaConnect**, desenvolvido c
 ## 📁 Estrutura de Pastas (sugestão)
 
 ```
-/OrlaConnectfrontend
+/OrlaConnect-frontend
 │
 ├── src/
 │   ├── assets/              # Imagens e arquivos estáticos
@@ -52,7 +52,7 @@ Este repositório contém o front-end do sistema **OrlaConnect**, desenvolvido c
 
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio-frontend.git
-cd OrlaConnectfrontend
+cd OrlaConnect-frontend
 npm install
 ```
 
