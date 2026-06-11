@@ -1,12 +1,16 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { register } from '../../services/authService'
 import { CreateClientDTO } from '../../types/User'
-import '@fortawesome/fontawesome-free/css/all.min.css'
+import { FaUser, FaLock, FaEye, FaEyeSlash, FaPhone, FaIdCard } from 'react-icons/fa'
+import { MdEmail } from 'react-icons/md'
 import './Register.css'
 
 function Register() {
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const [formData, setFormData] = useState<CreateClientDTO>({
     name: '',
@@ -22,67 +26,168 @@ function Register() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
+    // Auto-format CPF as 123.456.789-00
+    if (name === 'cpf') {
+      const digits = value.replace(/\D/g, '').slice(0, 11)
+      const formatted = digits
+        .replace(/(\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3}\.\d{3})(\d)/, '$1.$2')
+        .replace(/(\d{3}\.\d{3}\.\d{3})(\d{1,2})/, '$1-$2')
+      setFormData(prev => ({ ...prev, cpf: formatted }))
+      return
+    }
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (formData.password !== confirmPassword) {
+      alert('As senhas não coincidem.')
+      return
+    }
     try {
-      const response = await register(formData)
-      console.log('Cadastro realizado com sucesso:', response)
+      await register(formData)
       alert('Cadastro realizado com sucesso!')
       navigate('/login')
-    } catch (error) {
-      console.error('Erro ao cadastrar:', error)
-      alert('Erro ao cadastrar. Verifique os dados e tente novamente.')
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { message?: string } } }
+      const msg = err?.response?.data?.message ?? 'Verifique os dados e tente novamente.'
+      alert(`Erro ao cadastrar: ${msg}`)
     }
   }
 
   return (
-    <div>
-      <div className='register-container'>
-        <div className="card-register">
-          <div className="register-content">
-            <form className="form-card" onSubmit={handleSubmit}>
-              <p>Faça seu Cadastro</p>
+    <div className="reg-page">
 
-              <div className="inputs-register">
-                <input type="text" name="name" placeholder="Nome Completo" required onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="email" name="email" placeholder="Email" required onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="password" name="password" placeholder="Senha" required onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="text" name="cpf" placeholder="CPF (ex: 123.456.789-00)" required onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="tel" name="phoneNumber" placeholder="Telefone (ex: +5511999999999)" required onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="text" name="addressStreet" placeholder="Rua" onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="text" name="addressCity" placeholder="Cidade" onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="text" name="addressState" placeholder="Estado (ex: SP)" maxLength={2} onChange={handleChange} />
-              </div>
-              <div className="inputs-register">
-                <input type="text" name="addressZipCode" placeholder="CEP (ex: 12345-678)" onChange={handleChange} />
-              </div>
-
-              <button type="submit">Cadastrar</button>
-              <span>Já é cadastrado? <a href="/login" className="link-login">Fazer Login</a></span>
-            </form>
+      {/* Left: beach photo + branding */}
+      <div className="reg-left">
+        <div className="reg-left-content">
+          <div className="reg-brand">
+            <span className="reg-wave">≋</span>
+            <h2>Orla Conecta</h2>
           </div>
-        </div>
-        <div className='img-register'>
-          <img src="https://i.pinimg.com/736x/99/de/98/99de98eb4e7bd078d39db104da78444e.jpg" alt="imagem-register" />
+          <p>Conectando turistas aos melhores serviços locais do litoral pernambucano</p>
         </div>
       </div>
+
+      {/* Right: form */}
+      <div className="reg-right">
+        <div className="reg-form-wrap">
+          <h1>Crie sua conta</h1>
+          <p className="reg-subtitle">Cadastre-se para explorar o litoral</p>
+
+          <form className="reg-form" onSubmit={handleSubmit}>
+
+            <div className="reg-field">
+              <label htmlFor="name">Nome Completo</label>
+              <div className="reg-input-wrap">
+                <FaUser className="reg-icon-left" size={15} />
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Seu nome completo"
+                  required
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <label htmlFor="email">Email</label>
+              <div className="reg-input-wrap">
+                <MdEmail className="reg-icon-left" size={18} />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="seu@email.com"
+                  required
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <label htmlFor="cpf">CPF</label>
+              <div className="reg-input-wrap">
+                <FaIdCard className="reg-icon-left" size={15} />
+                <input
+                  type="text"
+                  id="cpf"
+                  name="cpf"
+                  placeholder="123.456.789-00"
+                  required
+                  maxLength={14}
+                  value={formData.cpf}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <label htmlFor="phoneNumber">Telefone</label>
+              <div className="reg-input-wrap">
+                <FaPhone className="reg-icon-left" size={14} />
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  placeholder="81999999999"
+                  required
+                  maxLength={15}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <div className="reg-input-wrap">
+                <FaLock className="reg-icon-left" size={15} />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  placeholder="••••••••"
+                  required
+                  onChange={handleChange}
+                />
+                <button type="button" className="reg-eye" onClick={() => setShowPassword(v => !v)}>
+                  {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <div className="reg-field">
+              <label htmlFor="confirmPassword">Confirmar Senha</label>
+              <div className="reg-input-wrap">
+                <FaLock className="reg-icon-left" size={15} />
+                <input
+                  type={showConfirm ? 'text' : 'password'}
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="••••••••"
+                  required
+                  value={confirmPassword}
+                  onChange={e => setConfirmPassword(e.target.value)}
+                />
+                <button type="button" className="reg-eye" onClick={() => setShowConfirm(v => !v)}>
+                  {showConfirm ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="reg-btn-submit">Criar Conta</button>
+          </form>
+
+          <p className="reg-login">
+            Já tem uma conta? <Link to="/login">Faça login</Link>
+          </p>
+
+          <Link to="/" className="reg-back">← Voltar para a página inicial</Link>
+        </div>
+      </div>
+
     </div>
   )
 }

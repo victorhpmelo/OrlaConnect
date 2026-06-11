@@ -1,4 +1,5 @@
 using System.Net.Mail;
+using orla_conecta_backend.DTOs.Contact;
 using orla_conecta_backend.Models.Reserves;
 using System.Net;
 using orla_conecta_backend.Repositories;
@@ -29,10 +30,10 @@ namespace orla_conecta_backend.Services.Email
             // Verificar se o arquivo existe
             if (!File.Exists(templatePath))
             {
-                throw new FileNotFoundException($"Template de email não encontrado: {templatePath}");
+                throw new FileNotFoundException($"Template de email nï¿½o encontrado: {templatePath}");
             }
 
-            // Ler o conteúdo do template
+            // Ler o conteï¿½do do template
             var templateContent = await File.ReadAllTextAsync(templatePath);
 
             // Substituir os placeholders pelos valores reais
@@ -57,7 +58,7 @@ namespace orla_conecta_backend.Services.Email
             var to = new MailAddress(email);
             var subject = "Bem-vindo ao OrlaConecta!";
 
-            // Obter o conteúdo HTML do template
+            // Obter o conteï¿½do HTML do template
             var htmlContent = await getBeWelcomeOrlaConecta(userName);
 
             var mailMessage = new MailMessage(from, to)
@@ -70,7 +71,7 @@ namespace orla_conecta_backend.Services.Email
             try
             {
                 await smtpClient.SendMailAsync(mailMessage);
-                _logger.LogInformation("Email de boas-vindas enviado para {Email} (usuário: {UserName})", email, userName);
+                _logger.LogInformation("Email de boas-vindas enviado para {Email} (usuï¿½rio: {UserName})", email, userName);
             }
             catch (Exception ex)
             {
@@ -93,12 +94,12 @@ namespace orla_conecta_backend.Services.Email
                     _configuration["Smtp:FromEmail"],
                     _configuration["Smtp:FromName"]);
                 var to = new MailAddress(email);
-                var subject = "Redefinição de Senha - OrlaConecta";
+                var subject = "Redefiniï¿½ï¿½o de Senha - OrlaConecta";
 
                 // Link para validar token
                 var validateTokenLink = $"http://localhost:5173/validate-token?token={token}";
 
-                // Obter o conteúdo HTML do template
+                // Obter o conteï¿½do HTML do template
                 var htmlContent = await GetPasswordResetEmailTemplateAsync(userName, token, validateTokenLink);
 
                 var mailMessage = new MailMessage(from, to)
@@ -111,16 +112,16 @@ namespace orla_conecta_backend.Services.Email
                 try
                 {
                     await smtpClient.SendMailAsync(mailMessage);
-                    _logger.LogInformation("Email de reset de senha enviado para {Email} (usuário: {UserName})", email, userName);
+                    _logger.LogInformation("Email de reset de senha enviado para {Email} (usuï¿½rio: {UserName})", email, userName);
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Falha ao enviar email de reset para {Email}", email);
-                    throw new Exception("Falha ao enviar o e-mail de redefinição de senha.");
+                    throw new Exception("Falha ao enviar o e-mail de redefiniï¿½ï¿½o de senha.");
                 }
             }
 
-            // método para construção do envio para recuperar senha
+            // mï¿½todo para construï¿½ï¿½o do envio para recuperar senha
             public async Task<string> GetPasswordResetEmailTemplateAsync(string userName, string token, string validateTokenLink)
             {
                 // Caminho para o template
@@ -129,10 +130,10 @@ namespace orla_conecta_backend.Services.Email
                 // Verificar se o arquivo existe
                 if (!File.Exists(templatePath))
                 {
-                    throw new FileNotFoundException($"Template de email não encontrado: {templatePath}");
+                    throw new FileNotFoundException($"Template de email nï¿½o encontrado: {templatePath}");
                 }
 
-                // Ler o conteúdo do template
+                // Ler o conteï¿½do do template
                 var templateContent = await File.ReadAllTextAsync(templatePath);
 
                 // Substituir os placeholders pelos valores reais
@@ -146,17 +147,17 @@ namespace orla_conecta_backend.Services.Email
 
         public async Task SendApprovedReserve(Reserve reserve)
         {
-            // Verificação de integridade do objeto antes de enviar o e-mail
+            // Verificaï¿½ï¿½o de integridade do objeto antes de enviar o e-mail
             if (reserve.User == null)
             {
-                _logger.LogError("Tentativa de envio de e-mail de aprovação falhou: 'User' da reserva está nulo.");
-                throw new ArgumentNullException(nameof(reserve.User), "Usuário da reserva não pode ser nulo.");
+                _logger.LogError("Tentativa de envio de e-mail de aprovaï¿½ï¿½o falhou: 'User' da reserva estï¿½ nulo.");
+                throw new ArgumentNullException(nameof(reserve.User), "Usuï¿½rio da reserva nï¿½o pode ser nulo.");
             }
 
             if (string.IsNullOrWhiteSpace(reserve.User.Email))
             {
-                _logger.LogError("Tentativa de envio de e-mail de aprovação falhou: 'Email' do usuário está vazio ou nulo.");
-                throw new ArgumentException("Email do usuário da reserva está vazio ou nulo.");
+                _logger.LogError("Tentativa de envio de e-mail de aprovaï¿½ï¿½o falhou: 'Email' do usuï¿½rio estï¿½ vazio ou nulo.");
+                throw new ArgumentException("Email do usuï¿½rio da reserva estï¿½ vazio ou nulo.");
             }
 
             var smtpClient = new SmtpClient(_configuration["Smtp:Host"], int.Parse(_configuration["Smtp:Port"]))
@@ -174,7 +175,7 @@ namespace orla_conecta_backend.Services.Email
             _logger.LogInformation("{to}", to);
             var subject = "Reserva Aprovada - OrlaConecta";
 
-            // Obter o conteúdo HTML do template
+            // Obter o conteï¿½do HTML do template
             var htmlContent = await GetApprovedReserve(reserve);
 
             var mailMessage = new MailMessage(from, to)
@@ -187,12 +188,12 @@ namespace orla_conecta_backend.Services.Email
             try
             {
                 await smtpClient.SendMailAsync(mailMessage);
-                _logger.LogInformation("Email de aprovação de reserva enviado para {Email} (usuário: {UserName})", reserve.User.Email, reserve.User.Name);
+                _logger.LogInformation("Email de aprovaï¿½ï¿½o de reserva enviado para {Email} (usuï¿½rio: {UserName})", reserve.User.Email, reserve.User.Name);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Falha ao enviar e-mail de aprovação para {Email}", reserve.User.Email);
-                throw new Exception($"Falha ao enviar o e-mail de aprovação para {reserve.User.Email}: {ex.Message}", ex);
+                _logger.LogError(ex, "Falha ao enviar e-mail de aprovaï¿½ï¿½o para {Email}", reserve.User.Email);
+                throw new Exception($"Falha ao enviar o e-mail de aprovaï¿½ï¿½o para {reserve.User.Email}: {ex.Message}", ex);
             }
         }
 
@@ -203,7 +204,7 @@ namespace orla_conecta_backend.Services.Email
             var templatePath = Path.Combine(_environment.ContentRootPath, "templates", "ApprovedReserve.html");
             if (!File.Exists(templatePath))
             {
-                throw new FileNotFoundException("Template HTML não encontrado.");
+                throw new FileNotFoundException("Template HTML nï¿½o encontrado.");
             }
 
             var hotel = await repository.GetByIdAsync(Convert.ToInt32(reserve.HotelId));
@@ -221,6 +222,99 @@ namespace orla_conecta_backend.Services.Email
                 .Replace("{{HotelEmail}}", hotel.ContactEmail)
                 .Replace("{{HotelPhone}}", hotel.ContactPhone);
             return htmlContent;
+        }
+
+        public async Task SendContactMessageAsync(ContactMessageDTO dto)
+        {
+            var adminEmail = _configuration["Smtp:AdminEmail"] ?? _configuration["Smtp:FromEmail"]!;
+
+            var smtpClient = new SmtpClient(_configuration["Smtp:Host"], int.Parse(_configuration["Smtp:Port"]!))
+            {
+                Credentials = new NetworkCredential(
+                    _configuration["Smtp:Username"],
+                    _configuration["Smtp:Password"]),
+                EnableSsl = true
+            };
+
+            var from = new MailAddress(_configuration["Smtp:FromEmail"]!, _configuration["Smtp:FromName"]);
+            var to = new MailAddress(adminEmail);
+            var subject = $"[Orla Conecta] Contato: {dto.Assunto}";
+
+            var body = $@"<h2>Nova mensagem de contato</h2>
+<p><strong>Nome:</strong> {dto.Nome}</p>
+<p><strong>Email:</strong> {dto.Email}</p>
+<p><strong>Telefone:</strong> {dto.Telefone ?? "N\u00e3o informado"}</p>
+<p><strong>Assunto:</strong> {dto.Assunto}</p>
+<hr />
+<p><strong>Mensagem:</strong></p>
+<p>{System.Web.HttpUtility.HtmlEncode(dto.Mensagem).Replace("\n", "<br/>")}</p>";
+
+            var mailMessage = new MailMessage(from, to)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+                ReplyToList = { new MailAddress(dto.Email, dto.Nome) }
+            };
+
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+                _logger.LogInformation("Email de contato recebido de {Email} com assunto '{Assunto}'", dto.Email, dto.Assunto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Falha ao enviar email de contato de {Email}", dto.Email);
+                throw new Exception("Falha ao processar mensagem de contato.", ex);
+            }
+        }
+
+        public async Task SendBusinessRegistrationAsync(BusinessRegistrationDTO dto)
+        {
+            var adminEmail = _configuration["Smtp:AdminEmail"] ?? _configuration["Smtp:FromEmail"]!;
+
+            var smtpClient = new SmtpClient(_configuration["Smtp:Host"], int.Parse(_configuration["Smtp:Port"]!))
+            {
+                Credentials = new NetworkCredential(
+                    _configuration["Smtp:Username"],
+                    _configuration["Smtp:Password"]),
+                EnableSsl = true
+            };
+
+            var from = new MailAddress(_configuration["Smtp:FromEmail"]!, _configuration["Smtp:FromName"]);
+            var to = new MailAddress(adminEmail);
+            var subject = $"[Orla Conecta] Novo Cadastro de Neg\u00f3cio: {dto.Nome}";
+
+            var body = $@"<h2>Novo cadastro de neg\u00f3cio</h2>
+<p><strong>Nome do Neg\u00f3cio:</strong> {dto.Nome}</p>
+<p><strong>Categoria:</strong> {dto.Categoria}</p>
+<p><strong>Cidade:</strong> {dto.Cidade}</p>
+<p><strong>Endere\u00e7o:</strong> {dto.Endereco}</p>
+<p><strong>Telefone:</strong> {dto.Telefone}</p>
+<p><strong>Email:</strong> {dto.Email}</p>
+<p><strong>Website:</strong> {dto.Website ?? "N\u00e3o informado"}</p>
+<hr />
+<p><strong>Descri\u00e7\u00e3o:</strong></p>
+<p>{System.Web.HttpUtility.HtmlEncode(dto.Descricao).Replace("\n", "<br/>")}</p>";
+
+            var mailMessage = new MailMessage(from, to)
+            {
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true,
+                ReplyToList = { new MailAddress(dto.Email, dto.Nome) }
+            };
+
+            try
+            {
+                await smtpClient.SendMailAsync(mailMessage);
+                _logger.LogInformation("Cadastro de neg\u00f3cio recebido de {Email} ({Nome})", dto.Email, dto.Nome);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Falha ao enviar email de cadastro de neg\u00f3cio de {Email}", dto.Email);
+                throw new Exception("Falha ao processar cadastro de neg\u00f3cio.", ex);
+            }
         }
     }
 

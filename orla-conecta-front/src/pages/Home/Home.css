@@ -1,0 +1,375 @@
+/* ── Hero ── */
+.oc-hero {
+  min-height: calc(100vh - 64px);
+  background-image: url('https://images.unsplash.com/photo-1641231767593-1184d3f32890?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.oc-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.oc-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.oc-hero-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.oc-hero-wave {
+  font-size: 44px;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.oc-hero-brand h1 {
+  font-size: 56px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0;
+}
+
+.oc-hero-subtitle {
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 480px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.oc-hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.oc-hero-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+}
+
+.oc-hero-btn-primary:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+.oc-arrow {
+  font-size: 16px;
+}
+
+.oc-hero-btn-secondary {
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.oc-hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Shared ── */
+.oc-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.oc-section-header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.oc-section-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+
+.oc-section-header p {
+  font-size: 16px;
+  color: #6b7280;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── Services ── */
+.oc-services {
+  background: #ffffff;
+  padding: 88px 0;
+}
+
+.oc-services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.oc-service-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s;
+}
+
+.oc-service-card:hover {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+  transform: translateY(-3px);
+}
+
+.oc-service-icon-wrap {
+  background: #f0f9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 148px;
+  padding: 36px;
+}
+
+.oc-service-body {
+  padding: 20px;
+}
+
+.oc-service-body h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.oc-service-body p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Destinations ── */
+.oc-destinations {
+  background: #f3f4f6;
+  padding: 88px 0;
+}
+
+.oc-destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.oc-dest-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 3 / 4;
+}
+
+.oc-dest-card:hover .oc-dest-img {
+  transform: scale(1.06);
+}
+
+.oc-dest-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.oc-dest-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.72) 0%, transparent 100%);
+  padding: 48px 16px 18px;
+  color: #ffffff;
+}
+
+.oc-dest-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.oc-dest-overlay h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* ── CTA ── */
+.oc-cta {
+  min-height: 420px;
+  background-image: url('https://images.unsplash.com/photo-1583214582490-1485cb37b04b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.oc-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.oc-cta-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.oc-cta-content h2 {
+  font-size: 44px;
+  font-weight: 800;
+  font-style: italic;
+  color: #ffffff;
+  margin: 0;
+}
+
+.oc-cta-content p {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+}
+
+.oc-cta-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.oc-cta-btn-primary {
+  padding: 14px 28px;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #ffffff;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+  display: inline-block;
+}
+
+.oc-cta-btn-primary:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+.oc-cta-btn-secondary {
+  padding: 14px 28px;
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.oc-cta-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .oc-services-grid,
+  .oc-destinations-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .oc-hero-brand h1 {
+    font-size: 36px;
+  }
+
+  .oc-hero-wave {
+    font-size: 30px;
+  }
+
+  .oc-hero-subtitle {
+    font-size: 16px;
+  }
+
+  .oc-services-grid,
+  .oc-destinations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .oc-section-header h2 {
+    font-size: 26px;
+  }
+
+  .oc-cta-content h2 {
+    font-size: 28px;
+  }
+
+  .oc-cta-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .oc-cta-btn-primary,
+  .oc-cta-btn-secondary {
+    text-align: center;
+  }
+}

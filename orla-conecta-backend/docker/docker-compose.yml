@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: orla-conecta-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SA_PASSWORD:-OrlaDev@12345}
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '${SA_PASSWORD:-OrlaDev@12345}' -Q 'SELECT 1' -No || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
   orla-conecta-api:
     build:
       context: ../
@@ -14,12 +33,18 @@ services:
     ports:
       - "${API_PORT:-5001}:8080"
     volumes:
-      # Only mount volumes in development
+      # Source code bind-mount (dev only)
       - ${VOLUME_MOUNT:-../:/app}
-      - ${BIN_VOLUME:-/app/bin}
-      - ${OBJ_VOLUME:-/app/obj}
+      # Anonymous volumes to shield container's build output from the host mount
+      - /app/bin
+      - /app/obj
       # Always persist uploads
       - ../uploads:/app/wwwroot/Uploads
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health || exit 1"]
@@ -28,10 +53,20 @@ services:
       retries: 3
       start_period: 40s
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: orla-conecta-mailhog
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    restart: unless-stopped
+
 networks:
   default:
     driver: bridge
 
 volumes:
   uploads:
+    driver: local
+  sqlserver-data:
     driver: local

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Stripe;
@@ -169,26 +171,34 @@ builder.Services.AddHttpContextAccessor();
 {
     options.Cookie.HttpOnly = true;
     options.ExpireTimeSpan = TimeSpan.FromHours(4);
-})
-.AddGoogle(options =>
-{
-    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.SaveTokens = true;
-    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
-    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
-    options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-    options.ClaimActions.MapJsonKey("picture", "picture", "url");
-    options.Events.OnCreatingTicket = context =>
-    {
-        foreach (var claim in context.Principal!.Claims)
-        {
-            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
-        }
-        return Task.CompletedTask;
-    };
 });
+
+// Only register Google OAuth when credentials are configured
+var googleClientId = builder.Configuration["Authentication:Google:ClientId"];
+var googleClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(googleClientSecret))
+{
+    builder.Services.AddAuthentication()
+        .AddGoogle(options =>
+        {
+            options.ClientId = googleClientId;
+            options.ClientSecret = googleClientSecret;
+            options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            options.SaveTokens = true;
+            options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+            options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+            options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+            options.ClaimActions.MapJsonKey("picture", "picture", "url");
+            options.Events.OnCreatingTicket = context =>
+            {
+                foreach (var claim in context.Principal!.Claims)
+                {
+                    Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+                }
+                return Task.CompletedTask;
+            };
+        });
+}
 
 // Configure CORS
 builder.Services.AddCors(options =>
@@ -196,11 +206,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy.WithOrigins(
-               "http://localhost:5173")
-        //policy.AllowAnyOrigin()
+               "http://localhost:5173",
+               "http://localhost:5174",
+               "http://localhost:3000")
               .AllowAnyHeader()
-              .AllowAnyMethod();
-
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -216,6 +227,49 @@ builder.Services.Configure<KestrelServerOptions>(options =>
 
 
 var app = builder.Build();
+
+// Auto-apply pending EF Core migrations on startup and seed required data
+try
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var startupLogger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+    // EnsureCreated: creates DB + all tables from the model when the DB doesn't exist yet.
+    // Returns false if the DB already exists (even if empty or missing tables).
+    bool wasCreated = db.Database.EnsureCreated();
+    if (wasCreated)
+    {
+        startupLogger.LogInformation("Database and schema created from model.");
+    }
+    else
+    {
+        // DB already existed — check if tables are present (handles empty/stale DB state)
+        var creator = db.Database.GetService<IRelationalDatabaseCreator>();
+        if (!creator.HasTables())
+        {
+            creator.CreateTables();
+            startupLogger.LogInformation("Created tables in existing empty database.");
+        }
+    }
+
+    // Seed roles if they don't exist
+    string[] requiredRoles = ["ADMIN", "CLIENT", "SERVICE_PROVIDER", "ATTENDANT"];
+    foreach (var roleName in requiredRoles)
+    {
+        if (!db.Roles.Any(r => r.Name == roleName))
+        {
+            db.Roles.Add(new orla_conecta_backend.Models.Users.Role { Name = roleName });
+            startupLogger.LogInformation("Seeded role: {Role}", roleName);
+        }
+    }
+    db.SaveChanges();
+}
+catch (Exception ex)
+{
+    var startupLogger = app.Services.GetRequiredService<ILogger<Program>>();
+    startupLogger.LogError(ex, "Failed to apply database migrations or seed data on startup.");
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

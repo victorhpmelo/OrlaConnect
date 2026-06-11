@@ -1,3 +1,4 @@
+using orla_conecta_backend.DTOs.Contact;
 using orla_conecta_backend.DTOs.Reserves;
 using orla_conecta_backend.Models.Reserves;
 
@@ -9,5 +10,7 @@ namespace orla_conecta_backend.Services.Email
         Task SendWelcomeEmailAsync(string email, string userName);
         Task<string> GetPasswordResetEmailTemplateAsync(string userName, string token, string validateTokenLink);
         Task SendApprovedReserve(Reserve reserve);
+        Task SendContactMessageAsync(ContactMessageDTO dto);
+        Task SendBusinessRegistrationAsync(BusinessRegistrationDTO dto);
     }
 }

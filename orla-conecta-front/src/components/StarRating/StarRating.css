@@ -1,0 +1,36 @@
+.sr-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.sr-star {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: #d1d5db;
+  line-height: 1;
+  transition: color 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+}
+
+.sr-star.filled {
+  color: #f59e0b;
+}
+
+.sr-wrap:not(.sr-readonly) .sr-star:hover {
+  transform: scale(1.15);
+}
+
+.sr-readonly .sr-star {
+  cursor: default;
+}
+
+.sr-label {
+  margin-left: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
