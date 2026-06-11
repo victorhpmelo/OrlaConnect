@@ -1,4 +1,4 @@
-# 🌍 OrlaConnect
+# 🌍 OrlaConnect (orla-conecta)
 
 Repositório geral do **OrlaConnect**, composto por:
 
@@ -8,7 +8,7 @@ Repositório geral do **OrlaConnect**, composto por:
 ## 📦 Estrutura do Repositório
 
 ```text
-OrlaConnect/
+.
 ├── orla-conecta-front/      # Aplicação web (cliente)
 └── orla-conecta-backend/    # API e regras de negócio
 ```
