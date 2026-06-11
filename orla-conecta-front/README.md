@@ -1,8 +1,8 @@
 
 
-# 🌐 Viaggia - Front-End do Sistema de Gerenciamento de Pacotes de Viagem
+# 🌐 OrlaConnect - Front-End do Sistema de Gerenciamento de Pacotes de Viagem
 
-Este repositório contém o front-end do sistema **Viaggia**, desenvolvido com **React 19**, **TypeScript**, **Vite** e **Tailwind CSS**, com foco em performance, responsividade e integração com o back-end via **API REST**.
+Este repositório contém o front-end do sistema **OrlaConnect**, desenvolvido com **React 19**, **TypeScript**, **Vite** e **Tailwind CSS**, com foco em performance, responsividade e integração com o back-end via **API REST**.
 
 ## 🚀 Tecnologias Utilizadas
 
@@ -20,7 +20,7 @@ Este repositório contém o front-end do sistema **Viaggia**, desenvolvido com *
 ## 📁 Estrutura de Pastas (sugestão)
 
 ```
-/viaggiafrontend
+/OrlaConnectfrontend
 │
 ├── src/
 │   ├── assets/              # Imagens e arquivos estáticos
@@ -52,7 +52,7 @@ Este repositório contém o front-end do sistema **Viaggia**, desenvolvido com *
 
 ```bash
 git clone https://github.com/seu-usuario/seu-repositorio-frontend.git
-cd viaggiafrontend
+cd OrlaConnectfrontend
 npm install
 ```
 
