@@ -13,6 +13,7 @@ node_modules/
 # 🏗️ Diretórios de build (gerados após o build do projeto)
 dist/
 dist-ssr/
+*.tsbuildinfo
 
 # ⚙️ Arquivos de configuração locais e sensíveis
 *.local
