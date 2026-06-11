@@ -1,6 +1,6 @@
-# 🌍 Viaggia - Sistema de Gerenciamento de Pacotes de Viagem
+# 🌍 OrlaConnect - Sistema de Gerenciamento de Pacotes de Viagem
 
-Este repositório contém o **back-end** do sistema **Viaggia**, desenvolvido com **ASP.NET Core 8**, utilizando o **Entity Framework Core**, autenticação com JWT, integração com APIs externas, e arquitetura limpa baseada em **camadas**.
+Este repositório contém o **back-end** do sistema **OrlaConnect**, desenvolvido com **ASP.NET Core 8**, utilizando o **Entity Framework Core**, autenticação com JWT, integração com APIs externas, e arquitetura limpa baseada em **camadas**.
 
 ## Tecnologias Utilizadas
 
@@ -14,7 +14,7 @@ Este repositório contém o **back-end** do sistema **Viaggia**, desenvolvido co
 
 ## 📁 Estrutura de Pastas
 ```
-/viaggia_server
+/OrlaConnect_server
 │
 ├── Controllers/         # Endpoints das APIs
 ├── Services/            # Lógica de negócio
@@ -234,15 +234,15 @@ erDiagram
 1. **Clone o repositório**
    ```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd Viaggia.Backend
+   cd OrlaConnect.Backend
    ```
 
 2. **Configure o banco de dados**
-   - Crie um banco de dados no SQL Server com o nome `ViaggiaDb` (ou o nome que preferir).
-   - Altere a connection string em `Viaggia.API/appsettings.Development.json`:
+   - Crie um banco de dados no SQL Server com o nome `OrlaConnectDb` (ou o nome que preferir).
+   - Altere a connection string em `OrlaConnect.API/appsettings.Development.json`:
      ```json
      "ConnectionStrings": {
-       "DefaultConnection": "Server=localhost;Database=ViaggiaDb;User Id=sa;Password=SuaSenhaForte;"
+       "DefaultConnection": "Server=localhost;Database=OrlaConnectDb;User Id=sa;Password=SuaSenhaForte;"
      }
      ```
 
@@ -254,12 +254,12 @@ erDiagram
 
 4. **Aplique as migrações (se houver)**
    ```bash
-   dotnet ef database update --project Viaggia.Infrastructure --startup-project Viaggia.API
+   dotnet ef database update --project OrlaConnect.Infrastructure --startup-project OrlaConnect.API
    ```
 
 5. **Execute a aplicação**
    ```bash
-   dotnet run --project Viaggia.API
+   dotnet run --project OrlaConnect.API
    ```
 
 6. **Acesse no navegador**
@@ -271,14 +271,14 @@ erDiagram
 ### 🧪 Rodar os testes
 
 ```bash
-dotnet test Viaggia.Tests
+dotnet test OrlaConnect.Tests
 ```
 ---
 
 
-# 🌍 Viaggia - Sistema de Gerenciamento de Pacotes de Viagem
+# 🌍 OrlaConnect - Sistema de Gerenciamento de Pacotes de Viagem
 
-Este repositório contém o **back-end** do sistema **Viaggia**, desenvolvido com **ASP.NET Core 8**, utilizando o **Entity Framework Core**, autenticação com JWT, integração com APIs externas, e arquitetura limpa baseada em **camadas**.
+Este repositório contém o **back-end** do sistema **OrlaConnect**, desenvolvido com **ASP.NET Core 8**, utilizando o **Entity Framework Core**, autenticação com JWT, integração com APIs externas, e arquitetura limpa baseada em **camadas**.
 
 ## Tecnologias Utilizadas
 
@@ -292,7 +292,7 @@ Este repositório contém o **back-end** do sistema **Viaggia**, desenvolvido co
 
 ## 📁 Estrutura de Pastas
 ```
-/viaggia_server
+/OrlaConnect_server
 │
 ├── Controllers/                 # APIs expostas (camada de entrada)
 │   ├── HotelsController.cs      # Controlador para hotéis
@@ -554,15 +554,15 @@ REVIEW ||--o{ HOTEL : avalia
 1. **Clone o repositório**
    ```bash
    git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd Viaggia.Backend
+   cd OrlaConnect.Backend
    ```
 
 2. **Configure o banco de dados**
-   - Crie um banco de dados no SQL Server com o nome `ViaggiaDb` (ou o nome que preferir).
-   - Altere a connection string em `Viaggia.API/appsettings.Development.json`:
+   - Crie um banco de dados no SQL Server com o nome `OrlaConnectDb` (ou o nome que preferir).
+   - Altere a connection string em `OrlaConnect.API/appsettings.Development.json`:
      ```json
      "ConnectionStrings": {
-       "DefaultConnection": "Server=localhost;Database=ViaggiaDb;User Id=sa;Password=SuaSenhaForte;"
+       "DefaultConnection": "Server=localhost;Database=OrlaConnectDb;User Id=sa;Password=SuaSenhaForte;"
      }
      ```
 
@@ -574,12 +574,12 @@ REVIEW ||--o{ HOTEL : avalia
 
 4. **Aplique as migrações (se houver)**
    ```bash
-   dotnet ef database update --project Viaggia.Infrastructure --startup-project Viaggia.API
+   dotnet ef database update --project OrlaConnect.Infrastructure --startup-project OrlaConnect.API
    ```
 
 5. **Execute a aplicação**
    ```bash
-   dotnet run --project Viaggia.API
+   dotnet run --project OrlaConnect.API
    ```
 
 6. **Acesse no navegador**
@@ -591,7 +591,7 @@ REVIEW ||--o{ HOTEL : avalia
 ### 🧪 Rodar os testes
 
 ```bash
-dotnet test Viaggia.Tests
+dotnet test OrlaConnect.Tests
 ```
 ---
 
